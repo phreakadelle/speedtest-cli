@@ -33,6 +33,8 @@ source = None
 shutdown_event = None
 scheme = 'http'
 
+apikey = 'MyAPIKey'
+shareURL = 'www.weser-netz.de/speedtest'
 
 # Used for bound_interface
 socket_socket = socket.socket
@@ -747,7 +749,8 @@ def speedtest():
         # We use a list instead of a dict because the API expects parameters
         # in a certain order
         apiData = [
-            'download=%s' % dlspeedk,
+            'apikey=%s' % apikey,
+			'download=%s' % dlspeedk,
             'ping=%s' % ping,
             'upload=%s' % ulspeedk,
             'promo=',
@@ -760,7 +763,7 @@ def speedtest():
                             .encode()).hexdigest()]
 
         headers = {'Referer': 'http://c.speedtest.net/flash/speedtest.swf'}
-        request = build_request('://www.speedtest.net/api/api.php',
+        request = build_request('://%s/api.php' % shareURL,
                                 data='&'.join(apiData).encode(),
                                 headers=headers)
         f, e = catch_request(request)
@@ -781,8 +784,8 @@ def speedtest():
             print_('Could not submit results to speedtest.net')
             sys.exit(1)
 
-        print_('Share results: %s://www.speedtest.net/result/%s.png' %
-               (scheme, resultid[0]))
+        print_('Share results: %s://%s/result/%s.png' %
+               (scheme, shareURL, resultid[0]))
 
 
 def main():
