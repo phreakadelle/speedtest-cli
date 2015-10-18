@@ -26,3 +26,7 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 web/config.inc.php
+*.prefs
+web/.buildpath
+*.project
+web/.settings/nppBackup/org.eclipse.php.core.prefs.2015-10-18_154024.bak
