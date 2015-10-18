@@ -6,8 +6,8 @@ mysql_select_db(DB_NAME) OR die(mysql_error());
 
 $sqlData = "SELECT 
 				stats_ts, 
-				stats_upload / 10 as stats_upload, 
-				stats_download / 10 as stats_download 
+				ROUND(stats_upload / 10,2) as stats_upload, 
+				ROUND(stats_download / 10) as stats_download
 			FROM 
 				stats_speedtest";
 if(isset($_GET['apikey']) && $_GET['apikey'] !== "All") {
@@ -72,11 +72,11 @@ $qAPIKeys = mysql_query($sqlDataAPIKey);
       		<td><?php echo date("H:i", $row['stats_ts']);?></td>
       		<td style="width: 100px;">
 				<?php if($row['stats_download'] > $row['stats_upload']) { ?>
-					<div class="green" style="width: <?php echo ($row['stats_download']/$mMultiplier);?>px;"><div class="red" style="width: <?php echo ($row['stats_upload']/$mMultiplier);?>px;"><?php echo $row['stats_upload'];?></div><?php echo $row['stats_download'];?></div>
+					<div class="green" style="width: <?php echo ($row['stats_download']/$mMultiplier);?>px;"><div class="red" style="width: <?php echo ($row['stats_upload']/$mMultiplier);?>px;"><?php echo "";//$row['stats_upload'];?></div><?php echo "";//$row['stats_download'];?></div>
 				<? } else {?>
-					<div class="red" style="width: <?php echo ($row['stats_upload']/$mMultiplier);?>px;"><div class="green" style="width: <?php echo ($row['stats_download']/$mMultiplier);?>px;"><?php echo $row['stats_download'];?></div><?php echo $row['stats_upload'];?></div>
+					<div class="red" style="width: <?php echo ($row['stats_upload']/$mMultiplier);?>px;"><div class="green" style="width: <?php echo ($row['stats_download']/$mMultiplier);?>px;"><?php echo "";//$row['stats_download'];?></div><?php echo "";//$row['stats_upload'];?></div>
 				<? }?>
-				
+			   <div><?php echo $row['stats_download'];?> / <?php echo $row['stats_upload'];?></div>
             </td>
         </tr>
         <?php $oldDay = date("D", $row['stats_ts']); $oldDate = date("d.m.Y", $row['stats_ts']); ?>
